@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Learnwithme-ssr</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #232526 0%, #414345 100%);
+            --header-bg: #181a1b;
+            --logo-bg: #00ffe7;
+            --logo-color: #181a1b;
+            --title-color: #00ffe7;
+            --desc-color: #b0b0b0;
+            --container-bg: rgba(30,32,34,0.98);
+            --editor-bg: #232526;
+            --btn-bg: linear-gradient(90deg, #00ffe7 0%, #00bfff 100%);
+            --btn-bg-hover: linear-gradient(90deg, #00bfff 0%, #00ffe7 100%);
+            --btn-color: #181a1b;
+            --btn-color-hover: #fff;
+            --output-bg: #181a1b;
+            --output-color: #00ffe7;
+            --features-color: #b0b0b0;
+            --h3-color: #00ffe7;
+            --text-color: #e0e0e0;
+        }
+        .light-theme {
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e6e9ef 100%);
+            --header-bg: #f0f4f8;
+            --logo-bg: #00bfff;
+            --logo-color: #fff;
+            --title-color: #0077b6;
+            --desc-color: #444;
+            --container-bg: #fff;
+            --editor-bg: #f8fafc;
+            --btn-bg: linear-gradient(90deg, #00bfff 0%, #00ffe7 100%);
+            --btn-bg-hover: linear-gradient(90deg, #00ffe7 0%, #00bfff 100%);
+            --btn-color: #0077b6;
+            --btn-color-hover: #fff;
+            --output-bg: #f0f4f8;
+            --output-color: #0077b6;
+            --features-color: #444;
+            --h3-color: #0077b6;
+            --text-color: #222;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-gradient);
+            margin: 0; padding: 0;
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--header-bg);
+            padding: 24px 0 16px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .logo {
+            width: 48px; height: 48px;
+            background: var(--logo-bg);
+            border-radius: 50%;
+            margin: 0 24px 0 32px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: var(--logo-color); font-weight: bold;
+        }
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--title-color);
+        }
+        .desc {
+            margin: 16px 0 32px 0;
+            font-size: 1.15rem;
+            color: var(--desc-color);
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 32px auto;
+            background: var(--container-bg);
+            padding: 32px 24px 24px 24px;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,255,231,0.08);
+        }
+        #editor {
+            height: 340px;
+            width: 100%;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,255,231,0.04);
+            background: var(--editor-bg);
+        }
+        .btn-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+        .futurist-btn {
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            background: var(--btn-bg);
+            color: var(--btn-color);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 2px 8px rgba(0,255,231,0.12);
+        }
+        .futurist-btn:hover {
+            background: var(--btn-bg-hover);
+            color: var(--btn-color-hover);
+        }
+        #output {
+            background: var(--output-bg);
+            color: var(--output-color);
+            padding: 16px;
+            min-height: 120px;
+            white-space: pre-wrap;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.08rem;
+            box-shadow: 0 2px 8px rgba(0,255,231,0.04);
+        }
+        h3 {
+            color: var(--h3-color);
+            margin-top: 32px;
+        }
+        ul {
+            color: var(--features-color);
+        }
+        @media (max-width: 600px) {
+            .container { padding: 12px 2vw; }
+            .header { flex-direction: column; align-items: flex-start; padding: 18px 0 10px 0; }
+            .logo { margin: 0 0 12px 18px; }
+            .title { font-size: 1.3rem; }
+        }
+        .history-item {
+            background: rgba(0,255,231,0.07);
+            color: var(--output-color);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 0.98rem;
+            transition: background 0.2s;
+        }
+        .history-item:hover {
+            background: rgba(0,255,231,0.18);
+        }
+        #toggle {
+            margin: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+        }
+        .theme-toggle-btn {
+            margin-left: auto;
+            margin-right: 32px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.7rem;
+            color: var(--title-color);
+            outline: none;
+            display: flex;
+            align-items: center;
+            height: 48px;
+        }
+        .theme-toggle-btn:hover {
+            color: #ffb300;
+        }
+        #history-list {
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">@Learnwithme-ssr</div>
+        <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
+    <div class="container">
+        <div class="desc">
+            A futuristic Python code compiler and runner with smart suggestions, instant output, and debugging.<br>
+            <b>Write, run, and debug Python code directly in your browser!</b>
+        </div>
+        <div id="editor">print('Hello, World!')</div>
+        <div class="btn-row">
+            <button id="run-btn" class="futurist-btn">Run</button>
+            <button id="debug-btn" class="futurist-btn">Debug</button>
+        </div>
+        <h3>Output:</h3>
+        <div id="output"></div>
+        <h3>History (last 24h):</h3>
+        <div id="history-list"></div>
+        <h3>Features:</h3>
+        <ul>
+            <li>Write and run Python code in your browser</li>
+            <li>Automatic bracket, parenthesis, and quote completion</li>
+            <li>Automatic indentation after colons</li>
+            <li>Basic code suggestions and autocomplete</li>
+            <li>Syntax highlighting</li>
+            <li>Output and error display</li>
+            <li>Basic error messages from the Python interpreter</li>
+            <li>Debug mode for detailed error tracebacks</li>
+        </ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/theme-xcode.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script>
+        const btn = document.getElementById('toggle');
+        btn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            console.log('Theme toggled. Body class:', document.body.className);
+        });
+    </script>
+</body>
+</html> 
