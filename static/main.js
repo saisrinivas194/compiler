@@ -17,6 +17,7 @@ const debugBtn = document.getElementById('debug-btn');
 const outputDiv = document.getElementById('output');
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
+let isClassicDark = false;
 
 function saveHistory(code, action) {
     const now = Date.now();
@@ -99,20 +100,19 @@ const customCompleter = {
 
 ace.require('ace/ext/language_tools').addCompleter(customCompleter);
 
-function setTheme(light) {
-    if (light) {
-        document.body.classList.add('light-theme');
-        themeIcon.textContent = '☀️';
-        editor.setTheme('ace/theme/xcode');
-    } else {
-        document.body.classList.remove('light-theme');
+function setClassicTheme(dark) {
+    if (dark) {
+        document.body.classList.add('classic-dark');
         themeIcon.textContent = '🌙';
         editor.setTheme('ace/theme/monokai');
+    } else {
+        document.body.classList.remove('classic-dark');
+        themeIcon.textContent = '☀️';
+        editor.setTheme('ace/theme/xcode');
     }
 }
 
-let isLight = false;
 themeToggle.addEventListener('click', () => {
-    isLight = !isLight;
-    setTheme(isLight);
+    isClassicDark = !isClassicDark;
+    setClassicTheme(isClassicDark);
 });

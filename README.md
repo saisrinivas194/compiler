@@ -1,5 +1,11 @@
 # @Learnwithme-ssr Python Web Terminal
 
+[![Learn Python and More Technologies on YouTube](https://img.shields.io/badge/YouTube-Learnwithme--ssr-red?logo=youtube)](https://www.youtube.com/@Learnwithme-ssr)
+
+**Check out the [@Learnwithme-ssr YouTube channel](https://www.youtube.com/@Learnwithme-ssr) for learning Python and more technologies!**
+
+---
+
 A futuristic Python code compiler and runner with smart suggestions, instant output, debugging, and theme switching. Write, run, and debug Python code directly in your browser!
 
 ## Features
