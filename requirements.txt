@@ -1,3 +1,10 @@
 flask
 flask_cors
 jedi
+numpy
+pandas
+scipy
+django
+matplotlib
+mysql-connector-python
+pymongo

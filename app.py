@@ -6,6 +6,7 @@ from flask_cors import CORS
 import jedi
 import re
 import os
+import sqlite3
 
 app = Flask(__name__)
 CORS(app)
@@ -67,6 +68,26 @@ def suggest():
         elif value in ['True', 'False']:
             comment_suggestions.append(f'# boolean')
     return jsonify({'suggestions': suggestions + comment_suggestions})
+
+@app.route('/sql', methods=['POST'])
+def run_sql():
+    data = request.json
+    query = data.get('query', '')
+    db_path = data.get('db_path', 'test.db')  # default SQLite DB
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute(query)
+        if query.strip().lower().startswith('select'):
+            result = cursor.fetchall()
+        else:
+            conn.commit()
+            result = f"{cursor.rowcount} rows affected."
+        cursor.close()
+        conn.close()
+        return jsonify({'result': result, 'error': ''})
+    except Exception as e:
+        return jsonify({'result': '', 'error': str(e)})
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

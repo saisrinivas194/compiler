@@ -17,7 +17,9 @@ const debugBtn = document.getElementById('debug-btn');
 const outputDiv = document.getElementById('output');
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
+const modeSelect = document.getElementById('mode-select');
 let isClassicDark = false;
+let currentMode = 'python';
 
 function saveHistory(code, action) {
     const now = Date.now();
@@ -54,18 +56,45 @@ function renderHistory() {
 // Call renderHistory on page load
 renderHistory();
 
+modeSelect.addEventListener('change', () => {
+    currentMode = modeSelect.value;
+    if (currentMode === 'python') {
+        editor.session.setMode('ace/mode/python');
+        editor.setValue("print('Hello, World!')", 1);
+    } else {
+        editor.session.setMode('ace/mode/sql');
+        editor.setValue("SELECT sqlite_version();", 1);
+    }
+});
+
 async function runCode(debug = false) {
     const code = editor.getValue();
     outputDiv.textContent = debug ? 'Debugging...' : 'Running...';
     try {
-        const response = await fetch('/run', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code, debug })
-        });
-        const result = await response.json();
-        outputDiv.textContent = (result.output || '') + (result.error ? '\n' + result.error : '');
-        saveHistory(code, debug ? 'debug' : 'run');
+        let response, result;
+        if (currentMode === 'python') {
+            response = await fetch('/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, debug })
+            });
+            result = await response.json();
+            outputDiv.textContent = (result.output || '') + (result.error ? '\n' + result.error : '');
+            saveHistory(code, debug ? 'debug' : 'run');
+        } else {
+            response = await fetch('/sql', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: code })
+            });
+            result = await response.json();
+            if (result.error) {
+                outputDiv.textContent = result.error;
+            } else {
+                outputDiv.textContent = JSON.stringify(result.result, null, 2);
+            }
+            saveHistory(code, 'sql');
+        }
     } catch (err) {
         outputDiv.textContent = 'Error connecting to server.';
     }

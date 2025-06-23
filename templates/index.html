@@ -210,6 +210,13 @@
             A futuristic Python code compiler and runner with smart suggestions, instant output, and debugging.<br>
             <b>Write, run, and debug Python code directly in your browser!</b>
         </div>
+        <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
+            <label for="mode-select" style="font-weight:600;">Mode:</label>
+            <select id="mode-select" style="padding:6px 18px; font-size:1rem; border-radius:4px;">
+                <option value="python">Python</option>
+                <option value="sql">SQL</option>
+            </select>
+        </div>
         <div id="editor">print('Hello, World!')</div>
         <div class="btn-row">
             <button id="run-btn" class="futurist-btn">Run</button>
