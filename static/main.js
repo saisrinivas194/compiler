@@ -67,9 +67,51 @@ modeSelect.addEventListener('change', () => {
     }
 });
 
+async function getInputsAndReplace(code) {
+    // Regex to match input('prompt') or input()
+    const inputRegex = /input\(([^)]*)\)/g;
+    let match;
+    let newCode = code;
+    let inputValues = [];
+    let inputPrompts = [];
+    let inputMatches = [];
+    // Collect all input() matches and their prompts
+    while ((match = inputRegex.exec(code)) !== null) {
+        let prompt = '';
+        if (match[1]) {
+            try {
+                // Try to eval the prompt string (handles both '...' and "...")
+                prompt = eval(match[1]);
+            } catch {
+                prompt = match[1];
+            }
+        }
+        inputPrompts.push(prompt);
+        inputMatches.push(match[0]);
+    }
+    // Prompt the user for each input
+    for (let i = 0; i < inputPrompts.length; i++) {
+        let value = window.prompt(inputPrompts[i] || 'Input:');
+        if (value === null) value = '';
+        // Always treat as string literal
+        value = JSON.stringify(value);
+        inputValues.push(value);
+    }
+    // Replace input() calls in order with user values
+    let replaced = 0;
+    newCode = newCode.replace(inputRegex, function() {
+        return inputValues[replaced++];
+    });
+    return newCode;
+}
+
 async function runCode(debug = false) {
-    const code = editor.getValue();
+    let code = editor.getValue();
     outputDiv.textContent = debug ? 'Debugging...' : 'Running...';
+    // Only do input() replacement in Python mode
+    if (currentMode === 'python' && code.includes('input(')) {
+        code = await getInputsAndReplace(code);
+    }
     try {
         let response, result;
         if (currentMode === 'python') {
