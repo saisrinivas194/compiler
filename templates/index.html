@@ -195,6 +195,43 @@
             color: #fff200;
             border-color: #c4302b;
         }
+
+        .futurist-btn.theme-mode {
+            margin-left: 8px;
+        }
+
+        /* Add layout for side-by-side editor and output */
+        .editor-output-row {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+        .editor-col {
+            flex: 2 1 0;
+            min-width: 0;
+        }
+        .output-col {
+            flex: 1 1 0;
+            min-width: 220px;
+            max-width: 350px;
+        }
+        .output-col h3 {
+            margin-top: 0;
+        }
+        .mode-select-row {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .mode-select {
+            padding: 6px 18px;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+        .mode-label {
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -203,6 +240,8 @@
         <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
             <span id="theme-icon">🌙</span>
         </button>
+        <button id="dark-mode-btn" class="futurist-btn theme-mode">Dark Mode</button>
+        <button id="light-mode-btn" class="futurist-btn theme-mode">Light Mode</button>
     </div>
     <a href="https://www.youtube.com/@Learnwithme-ssr" target="_blank" rel="noopener" class="yt-badge">📺 Learn Python & More on YouTube</a>
     <div class="container">
@@ -210,20 +249,24 @@
             A futuristic Python code compiler and runner with smart suggestions, instant output, and debugging.<br>
             <b>Write, run, and debug Python code directly in your browser!</b>
         </div>
-        <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
-            <label for="mode-select" style="font-weight:600;">Mode:</label>
-            <select id="mode-select" style="padding:6px 18px; font-size:1rem; border-radius:4px;">
+        <div class="mode-select-row">
+            <label for="mode-select" class="mode-label">Mode:</label>
+            <select id="mode-select" class="mode-select">
                 <option value="python">Python</option>
                 <option value="sql">SQL</option>
             </select>
         </div>
-        <div id="editor">print('Hello, World!')</div>
         <div class="btn-row">
             <button id="run-btn" class="futurist-btn">Run</button>
             <button id="debug-btn" class="futurist-btn">Debug</button>
         </div>
-        <h3>Output:</h3>
-        <div id="output"></div>
+        <div class="editor-output-row">
+            <div id="editor" class="editor-col">print('Hello, World!')</div>
+            <div class="output-col">
+                <h3>Output:</h3>
+                <div id="output"></div>
+            </div>
+        </div>
         <h3>History (last 24h):</h3>
         <div id="history-list"></div>
         <h3>Features:</h3>

@@ -18,6 +18,8 @@ const outputDiv = document.getElementById('output');
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
 const modeSelect = document.getElementById('mode-select');
+const darkModeBtn = document.getElementById('dark-mode-btn');
+const lightModeBtn = document.getElementById('light-mode-btn');
 let isClassicDark = false;
 let currentMode = 'python';
 
@@ -144,6 +146,16 @@ async function runCode(debug = false) {
 
 runBtn.addEventListener('click', () => runCode(false));
 debugBtn.addEventListener('click', () => runCode(true));
+
+// Add Shift+Enter to run code
+editor.commands.addCommand({
+    name: 'runOnShiftEnter',
+    bindKey: { win: 'Shift-Enter', mac: 'Shift-Enter' },
+    exec: function() {
+        runCode(false);
+    },
+    readOnly: false
+});
 
 // Custom completer using backend /suggest endpoint
 const customCompleter = {
@@ -560,3 +572,18 @@ themeToggle.addEventListener('click', () => {
     isClassicDark = !isClassicDark;
     setClassicTheme(isClassicDark);
 });
+
+// Dark Mode button
+if (darkModeBtn) {
+    darkModeBtn.addEventListener('click', () => {
+        isClassicDark = true;
+        setClassicTheme(true);
+    });
+}
+// Light Mode button
+if (lightModeBtn) {
+    lightModeBtn.addEventListener('click', () => {
+        isClassicDark = false;
+        setClassicTheme(false);
+    });
+}
