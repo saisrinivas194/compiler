@@ -7,6 +7,8 @@ import jedi
 import re
 import os
 import sqlite3
+import numpy as np
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
